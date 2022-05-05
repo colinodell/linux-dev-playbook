@@ -1,0 +1,25 @@
+---
+
+- name: Install zsh
+  apt: name=zsh,git state=present
+  become: yes
+
+- name: Check whether oh-my-zsh is installed
+  stat: path="{{ lookup('env','HOME') }}/.oh-my-zsh"
+  register: oh_my_zsh
+
+- name: Download the oh-my-zsh installer
+  get_url:
+    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest: /tmp/install-oh-my-zsh.sh
+    mode: 0775
+  when: oh_my_zsh.stat.isdir is not defined
+
+- name: Install oh-my-zsh
+  shell: /tmp/install-oh-my-zsh.sh --unattended
+  when: oh_my_zsh.stat.isdir is not defined
+
+- name: Set default shell to zsh
+  command: chsh -s /usr/bin/zsh "{{ lookup('env','USER') }}"
+  become: yes
+

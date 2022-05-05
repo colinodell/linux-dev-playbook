@@ -1,0 +1,34 @@
+---
+- name: Configure apt repositories
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+  loop: "{{ apt_repositories }}"
+  become: yes
+
+- name: Upgrade all apt packages
+  apt:
+    upgrade: dist
+    update_cache: yes
+    cache_valid_time: 3600
+  become: yes
+
+- name: Install apt packages
+  apt:
+    pkg: "{{ apt_packages }}"
+    state: present
+  become: yes
+
+- name: Install apt debs
+  apt:
+    deb: "{{ item }}"
+    state: present
+  loop: "{{ apt_debs }}"
+  become: yes
+
+- name: Install flatpak packages
+  community.general.flatpak:
+    name: "{{ flatpak_packages }}"
+    state: present
+    method: user
+

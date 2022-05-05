@@ -1,0 +1,52 @@
+---
+
+- name: Add PPA repository for PHP
+  apt_repository: repo='ppa:ondrej/php'
+  become: yes
+
+- name: Install multiple PHP versions
+  apt:
+    name:
+      - php{{item}}-cli
+      - php{{item}}-bcmath
+      - php{{item}}-curl
+      - php{{item}}-fpm
+      - php{{item}}-gd
+      - php{{item}}-intl
+      - php{{item}}-ldap
+      - php{{item}}-mbstring
+      - php{{item}}-mysql
+      - php{{item}}-opcache
+      - php{{item}}-redis
+      - php{{item}}-soap
+      - php{{item}}-sqlite3
+      - php{{item}}-xml
+      - php{{item}}-zip
+    state: present
+  loop: "{{ php_versions }}"
+  become: yes
+
+- name: Install ext-json
+  apt:
+    name:
+      - php{{item}}-json
+    state: present
+  loop: "{{ php_versions }}"
+  when: item < "8.0"
+  become: yes
+
+- name: Install ext-mcrypt on PHP 5.6 and 7.1
+  apt:
+    name:
+      - php{{item}}-mcrypt
+    state: present
+  loop: "{{ php_versions }}"
+  when: item <= "7.1"
+  become: yes
+
+- name: Install xdebug
+  apt: name=php-xdebug state=present
+  become: yes
+
+- import_role: name=geerlingguy.composer
+  become: yes
