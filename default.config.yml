@@ -50,3 +50,5 @@ php_versions:
 
 pip_packages:
   - name: ansible
+
+keyboard_backlight_color: "004783"

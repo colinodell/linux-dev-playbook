@@ -25,3 +25,6 @@
 
     - import_tasks: tasks/extra-packages.yml
       tags: ['extra-packages']
+
+    - import_tasks: tasks/system76.yml
+      tags: ['system76']

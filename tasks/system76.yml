@@ -1,0 +1,26 @@
+---
+
+- name: Determine whether this is a System76 laptop with an RGB backlight
+  stat: path="/sys/class/leds/system76::kbd_backlight/color_left"
+  register: system76_kbd_backlight
+
+- name: Configure the user's prefered backlight color
+  copy:
+    dest: /etc/systemd/system/kbd-color.service
+    content: |
+      [Unit]
+      Description=System76 Keyboard backlight
+      [Service]
+      Type=Simple
+      ExecStartPre=/bin/sh -c "echo {{keyboard_backlight_color}} > /sys/class/leds/system76::kbd_backlight/color_left"
+      ExecStart=/bin/sh -c "echo {{keyboard_backlight_color}} > /sys/class/leds/system76::kbd_backlight/color_center"
+      ExecStartPost=/bin/sh -c "echo {{keyboard_backlight_color}} > /sys/class/leds/system76::kbd_backlight/color_right"
+      [Install]
+      WantedBy=multi-user.target
+  notify: restart kbd-color
+  become: yes
+  when: system76_kbd_backlight.stat.exists|bool
+- name: Ensure the backlight color service is enabled
+  systemd: name=kbd-color enabled=yes
+  become: yes
+  when: system76_kbd_backlight.stat.exists|bool

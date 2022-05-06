@@ -1,0 +1,7 @@
+---
+
+handlers:
+  - name: restart kbd-color
+    systemd: state=started name=kbd-color daemon_reload=yes
+    become: yes
+
