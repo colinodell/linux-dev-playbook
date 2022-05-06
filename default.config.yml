@@ -50,5 +50,18 @@ php_versions:
 
 pip_packages:
   - name: ansible
+  - name: psutil
 
 keyboard_backlight_color: "004783"
+
+dconf_settings:
+  "/org/gnome/shell/extensions/pop-cosmic/show-applications-button": "false"
+  "/org/gnome/shell/extensions/pop-cosmic/show-workspaces-button": "false"
+  "/org/gnome/desktop/interface/clock-format": "'24h'"
+  "/org/gnome/desktop/interface/color-scheme": "'prefer-dark'"
+  "/org/gnome/desktop/interface/gtk-theme": "'Pop-dark'"
+  "/org/gnome/desktop/interface/show-battery-percentage": "true"
+  "/org/gnome/gedit/preferences/editor/scheme": "'pop-dark'"
+  "/org/gnome/shell/extensions/dash-to-dock/manualhide": "false"
+  "/org/gnome/settings-daemon/plugins/color/night-light-enabled": "true"
+  "/org/gtk/Settings/FileChooser/clock-format": "'24h'"

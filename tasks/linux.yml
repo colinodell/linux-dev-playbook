@@ -4,3 +4,9 @@
   shell: "gio mime x-scheme-handler/{{item}} com.google.Chrome.desktop"
   loop: ["http", "https"]
 
+- name: Configure dconf settings
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+    state: present
+  loop: "{{ dconf_settings|dict2items }}"
