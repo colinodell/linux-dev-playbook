@@ -17,6 +17,9 @@
     - import_tasks: tasks/packages.yml
       tags: ['packages']
 
+    - import_tasks: tasks/linux.yml
+      tags: ['linux']
+
     - import_tasks: tasks/php.yml
       tags: ['php']
 

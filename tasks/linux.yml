@@ -1,0 +1,6 @@
+---
+
+- name: Make Chrome the default browser
+  shell: "gio mime x-scheme-handler/{{item}} com.google.Chrome.desktop"
+  loop: ["http", "https"]
+
